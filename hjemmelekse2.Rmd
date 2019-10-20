@@ -26,3 +26,181 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+## Oppgave 2
+```{r}
+
+#oppg 2.1
+x <- c(1, 2, 3, 10)
+y <- c(4, 5, 6, 23)
+
+sum_two <- function(x, y)
+{
+  x + y
+}
+
+sum_two(x, y)
+
+
+#oppg 2.2
+multiply_two <- function(x, y)
+{
+  x * y
+}
+
+multiply_two(x, y)
+
+
+#oppg 2.3
+kvadrer_x <- function(x) {
+  x^2
+}
+
+kvadrer_x(x)
+
+#funksjonen kjører helt fint uten feilmelding?
+#TODO: undersøke denne
+
+
+#oppg 2.4
+#Dersom funksjonskallet ikke oppgir  en verdi for argumentet "method" bruker funksjonen en forhåndsfeinert verdi.
+#"pearson" er verdien som brukes default i cor-funksjonen.
+
+
+#oppg 2.5
+contains_two <- function(x)
+{
+  is.element(2, x)
+}
+
+contains_two(x)
+contains_two(y)
+
+
+#oppg 2.6
+#Det er en dårlig idé å bruke mean, sum, og mtcars, som funksjonsnavn fordi dette allerede er standardfunksjoner i R.
+#Når nye funksjoner opprettes med eksisterende funksjonsnavn er det de nye funksjonene som kjører ved funksjonskall.
+
+
+#oppg 2.7
+er_partall <- function(x)
+{
+  ifelse(x %% 2 == 0, TRUE, FALSE)
+}
+
+er_partall(1)
+er_partall(12)
+er_partall(c(9, 2, 3, 4))
+
+#Det er ikke nødvendig med en egen funksjon for å undersøke om et heltall er et oddetall, fordi funksjonen er_partall allerede undersøker dette.
+#Ved partall returnerer funksjonen TRUE. Ved oddetall returnerer funksjonen FALSE. 
+
+
+#oppg 2.8
+# if() vurderer kun ett element. Dersom objektet som undersøkes er en vektor vil kun første element i vektoren vurderes.
+# ifelse() kan vurdere flere elementer etter hverandre. Dersom objektet som undersøkes er en vektor vil elementene i vektoren undersøkes etter hver for seg.
+# Jeg ville brukt ifelse() dersom jeg ønsket en fleksibel funksjon som er åpen for vektor-argumenter
+
+
+#oppg 2.9
+lag_histogram <-  function(.data, variabel) {
+  
+  .data %>% 
+    ggplot(aes(x = variabel)) + 
+    geom_histogram()
+  
+}
+
+df_test <- data.frame(matrix(rnorm(20), nrow=10))
+
+#Funksjonen virker så lenge man spesifiserer hvilken df variabelen hører til. Funksjonen kan brukes uten justeringer med:
+lag_histogram(df_test, df_test$X1)
+
+lag_histogram(df_test, X1)
+
+
+#For å benytte funksjonen uten å spesifire variabelens tilhørighet til df kan variabelen flagges for tidy evaluation med {{}}:
+lag_histogram2 <- function(.data, variabel) 
+{
+  .data %>% 
+    ggplot(aes(x = {{variabel}})) + geom_histogram()
+}
+
+lag_histogram2(df_test, X1)
+
+```
+
+
+## Oppgave 3
+```{r}
+timed_greeting <- function(in_time = lubridate::now())
+{
+  in_hour <- lubridate::hour(in_time)
+  if(in_hour >= 6 & in_hour < 9)
+    "God morgen"
+  else if(in_hour >= 9 & in_hour < 12)
+    "God formiddag"
+  else if(in_hour >= 12 & in_hour < 18)
+    "God ettermiddag"
+  else
+    "God kveld"
+}
+
+timed_greeting(parse_date_time("06:45", "HM"))
+
+```
+
+
+## Oppgave 4
+```{r}
+
+fahrenheit_to_celsius <- function(temp)
+{
+  x <- (temp - 32) * (5/9)
+  if(x && as.integer(x) < 0.5)
+    as.integer(x)
+  else
+    as.integer(x + 0.5)
+}
+
+celsius_to_fahrenheit <- function(temp)
+{
+  x <- temp * (9/5) + 32
+  if(x && as.integer(x) < 0.5)
+    as.integer(x)
+  else
+    as.integer(x + 0.5)
+}
+
+fahrenheit_to_celsius(32)
+fahrenheit_to_celsius(63)
+celsius_to_fahrenheit(0)
+celsius_to_fahrenheit(100)
+fahrenheit_to_celsius(celsius_to_fahrenheit(23))
+
+```
+
+
+## Oppgave 5
+```{r}
+dingdong <- function(in_num)
+{
+  case_when(
+    in_num %% (3*5) == 0 ~ "DingDong",
+    in_num %% 3 == 0 ~ "Ding",
+    in_num %% 5 == 0 ~ "Dong",
+    TRUE ~ as.character(in_num)
+  )
+}
+
+dingdong(c(1:100))
+
+```
+
+
+## Oppgave 6
+```{r}
+
+```
+
