@@ -5,6 +5,16 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+# JP:
+# Generelt mye bra her! Se enkelte kommentarer og tips under markert med "JP". 
+# Håper feedbacken er nyttig :-)
+
+# JP:
+# Kommentar til bruk av GitHub: bra at du har committet underveis. Dersom du
+# skal bruke Git på prosjekt anbefaler jeg å lese gjennom tips til gode commit 
+# messages i slidene fra sesjon 2. 
+
 ```
 
 
@@ -42,6 +52,10 @@ kvadrer_x(x)
 #funksjonen kjører helt fint uten feilmelding?
 #TODO: undersøke denne
 
+# JP:
+# Tanken var at man skulle kjøre kvadrer_x() uten x. Da får man feilmelding 
+# fordi x ikke har noe default verdi. 
+
 
 #oppg 2.4
 #Dersom funksjonskallet ikke oppgir  en verdi for argumentet "method" bruker funksjonen en forhåndsfeinert verdi.
@@ -56,6 +70,9 @@ contains_two <- function(x)
 
 contains_two(x)
 contains_two(y)
+
+# JP:
+# Fin løsning med bruk av is.element
 
 
 #oppg 2.6
@@ -73,6 +90,13 @@ er_partall(1)
 er_partall(12)
 er_partall(c(9, 2, 3, 4))
 
+
+# JP:
+# Gjentar denne selv om jeg har nevnt det til deg før: her er det ikke nødvendig
+# med ifelse(<logikk som gir true/false>, true, false). "x %% 2 == 0" hadde gitt
+# nøyaktig samme svar. Ellers en veldig god løsning. 
+
+
 #Det er ikke nødvendig med en egen funksjon for å undersøke om et heltall er et oddetall, fordi funksjonen er_partall allerede undersøker dette.
 #Ved partall returnerer funksjonen TRUE. Ved oddetall returnerer funksjonen FALSE. 
 
@@ -82,6 +106,9 @@ er_partall(c(9, 2, 3, 4))
 # ifelse() kan vurdere flere elementer etter hverandre. Dersom objektet som undersøkes er en vektor vil elementene i vektoren undersøkes etter hver for seg.
 # Jeg ville brukt ifelse() dersom jeg ønsket en fleksibel funksjon som er åpen for vektor-argumenter
 
+# JP:
+# Godt svar! Mange som misset på denne. Merk at if() og else() kan brukes i funksjoner
+# som control flow, f.eks. ved input som setter ulike valg for funksjonen. 
 
 #oppg 2.9
 lag_histogram <-  function(.data, variabel) {
@@ -97,6 +124,11 @@ df_test <- data.frame(matrix(rnorm(20), nrow=10))
 #Funksjonen virker så lenge man spesifiserer hvilken df variabelen hører til. Funksjonen kan brukes uten justeringer med:
 lag_histogram(df_test, df_test$X1)
 
+# JP:
+# Det er fordi her blir df_test$x1 plottet uavhengig av hvilket df man sender 
+# inn (gitt samme antall rader, ellers får man error). F.eks: 
+# lag_histogram(iris[1:10, ], df_test$X1)
+
 lag_histogram(df_test, X1)
 
 
@@ -105,9 +137,12 @@ lag_histogram2 <- function(.data, variabel)
 {
   .data %>% 
     ggplot(aes(x = {{variabel}})) + geom_histogram()
-}
+} 
 
 lag_histogram2(df_test, X1)
+
+# JP:
+# Dette er en mye bedre løsning. 
 
 ```
 
@@ -128,6 +163,10 @@ timed_greeting <- function(in_time = lubridate::now())
 }
 
 timed_greeting(parse_date_time("06:45", "HM"))
+
+# JP:
+# Fin løsning. Se løsningsforslag for et vektorisert eksempel. 
+
 
 ```
 
@@ -176,6 +215,10 @@ dingdong <- function(in_num)
 
 dingdong(c(1:100))
 
+# JP:
+# Nydelig løsning! Kjempeelegant å sjekke om (3*5) går perfekt opp i "in_num" 
+# istedenfor å sjekke 3 og 5 hver for seg.
+
 ```
 
 
@@ -199,6 +242,12 @@ generate_password <- function(n_chars)
 
 print(generate_password(20))
 
+# JP:
+# Kul løsning. Vanligvis er det bedre å unngå for-loops i R samt unngå å hele 
+# tiden oppdatere lengden på et element (her: password). Man merker det ikke på
+# små eksempler, men med store operasjoner blir dette veldig tregt. 
+
+
 ```
 
 
@@ -217,6 +266,9 @@ prosent_na <- function(in_vector)
 
 antall_na(airquality)
 prosent_na(airquality)
+
+# JP:
+# Gode løsninger, men prosent_na kan skrives enklere. Se eksempel i løsningsforslag. 
 
 ```
 
